@@ -1,8 +1,8 @@
 import { Resolver, Arg, Query, Args } from 'type-graphql';
 import { GraphQLError } from 'graphql';
-import { GetCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand } from '@aws-sdk/lib-dynamodb';
 import { GetItemsArgs, Items } from '../entities/Items';
-import { dynamo, TABLE_NAME } from '../db';
+import { dynamo, TABLE_NAME, scanAllItems } from '../db';
 
 const toItem = (raw: Record<string, unknown>): Items => ({
   ...(raw as unknown as Items),
@@ -26,15 +26,14 @@ export class ItemsResolver {
   }
 
   @Query(() => [Items])
-  async items(@Args(() => GetItemsArgs) { range }: GetItemsArgs): Promise<Items[]> {
+  async items(@Args(() => GetItemsArgs) { range, limit, offset }: GetItemsArgs): Promise<Items[]> {
     const cutoff = new Date(Date.now() - range * 24 * 60 * 60 * 1000).toISOString();
-    const result = await dynamo.send(new ScanCommand({
-      TableName: TABLE_NAME,
-      FilterExpression: 'publishDate >= :cutoff',
-      ExpressionAttributeValues: { ':cutoff': cutoff },
-    }));
-    return (result.Items ?? [])
+    const all = await scanAllItems();
+
+    return all
+      .filter((raw) => (raw.publishDate as string) >= cutoff)
       .map(toItem)
-      .sort((a: Items, b: Items) => b.publishDate.getTime() - a.publishDate.getTime());
+      .sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime())
+      .slice(offset, offset + limit);
   }
 }

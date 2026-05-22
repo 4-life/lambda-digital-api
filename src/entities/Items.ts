@@ -40,6 +40,15 @@ export class GetItemsArgs {
   @Min(1)
   @Max(3650)
   range: number;
+
+  @Field(() => Int, { defaultValue: 12 })
+  @Min(1)
+  @Max(100)
+  limit: number;
+
+  @Field(() => Int, { defaultValue: 0 })
+  @Min(0)
+  offset: number;
 }
 
 export const ItemsModel = Items;
