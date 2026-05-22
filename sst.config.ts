@@ -17,7 +17,7 @@ export default $config({
       primaryIndex: { hashKey: "id" },
     });
 
-    const fn = {
+    const fn = new sst.aws.Function("GraphqlHandler", {
       handler: "index.handler",
       runtime: "nodejs22.x",
       memory: "512 MB",
@@ -31,7 +31,7 @@ export default $config({
       nodejs: {
         esbuild: { keepNames: true },
       },
-    } satisfies sst.aws.FunctionArgs;
+    });
 
     const api = new sst.aws.ApiGatewayV2("GraphqlApi", {
       cors: {
@@ -41,7 +41,8 @@ export default $config({
       },
     });
 
-    api.route("$default", fn);
+    api.route("GET /", fn.arn);
+    api.route("POST /", fn.arn);
 
     return { url: api.url, table: table.name };
   },
