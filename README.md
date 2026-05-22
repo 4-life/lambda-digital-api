@@ -28,7 +28,6 @@ GraphQL API for the NFT marketplace, running on AWS Lambda + API Gateway V2, bac
 | Command | Description |
 |---|---|
 | `npm run dev` | Live Lambda dev via `sst dev` — runs your code locally, traffic proxied from AWS |
-| `npm run deploy-dev` | Deploy to `dev` stage |
 | `npm run deploy-prod` | Deploy to `production` stage |
 | `npm run seed` | Seed DynamoDB with sample NFT data (requires `TABLE_NAME` env var) |
 | `npm run test:local` | Run tests locally — starts DynamoDB Local via Docker automatically |
@@ -77,7 +76,6 @@ npm test
 Push to `master` to trigger CI:
 
 1. **test** — spins up DynamoDB Local as a Docker service, runs the test suite
-2. **deploy-dev** — deploys to the `dev` stage on AWS
 3. **deploy-prod** — deploys to the `production` stage on AWS
 
 AWS credentials are stored as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` GitHub secrets.

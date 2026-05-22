@@ -68,10 +68,10 @@ jobs:
 
       - name: Seed
         run: |
-          OUTPUT=$(npx sst output --stage production)
-          echo "SST output: $OUTPUT"
-          TABLE=$(echo "$OUTPUT" | grep -i "table" | awk '{print $NF}')
-          echo "Table name: $TABLE"
+          TABLE=$(aws dynamodb list-tables --region eu-central-1 \
+            --query "TableNames[?contains(@, 'ItemsTable')]" \
+            --output text)
+          echo "Table: $TABLE"
           TABLE_NAME=$TABLE AWS_REGION=eu-central-1 npm run seed
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
