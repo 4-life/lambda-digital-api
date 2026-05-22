@@ -23,6 +23,7 @@ npm-debug.log*
 .tmp/
 .versions/
 .build/
+.sst/
 coverage/
 dist/
 node_modules/

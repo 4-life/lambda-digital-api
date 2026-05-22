@@ -1,170 +1,39 @@
 import { faker } from '@faker-js/faker';
 import { Items } from './entities/Items';
 
-const data: Items[] = [
-  {
-    author: {
-      name: 'Just Me',
-      avatar: '11.webp',
-    },
-    title: '#4 Neon City',
-    views: 32123,
-    pic: '1e54778d-a939-4f0a-9acb-134b69007c25.webp',
-    likes: 457,
-    comments: 923,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Asenami',
-      avatar: '01.webp',
-    },
-    title: 'Tech',
-    views: 1254,
-    pic: '8ed4b930-5830-4de5-818c-7ab06314746c.webp',
-    likes: 34,
-    comments: 101,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Phillip',
-      avatar: '02.webp',
-    },
-    title: '#12 Something good',
-    views: 3410,
-    pic: '9e668765-5414-4993-a956-99930b3791d7.webp',
-    likes: 457,
-    comments: 923,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Aira',
-      avatar: '03.webp',
-    },
-    title: 'Turn left',
-    views: 9461,
-    pic: '45f68c2a-101c-456d-a736-b808d7f930a8.webp',
-    likes: 12,
-    comments: 56,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: '@Meppa',
-      avatar: '04.webp',
-    },
-    title: '#01 My Earth',
-    views: 4309,
-    pic: '709e6ebf-1ecc-4a6d-b1c7-9f2072b3c01f.webp',
-    likes: 27,
-    comments: 91,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Karianter',
-      avatar: '05.webp',
-    },
-    title: 'Das Bot',
-    views: 7819,
-    pic: '04314f8b-6c8d-41c5-95be-e78848eee6e1.webp',
-    likes: 111,
-    comments: 999,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Hayden',
-      avatar: '06.webp',
-    },
-    title: 'Magestico',
-    views: 32,
-    pic: '5914ae6c-0510-4456-9979-dca86f9b7f55.webp',
-    likes: 4,
-    comments: 23,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Face / D',
-      avatar: '07.webp',
-    },
-    title: 'Meta Inverse',
-    views: 19212,
-    pic: 'a82e12b9-de17-4b40-8ca3-5c67fd9d23a9.webp',
-    likes: 678,
-    comments: 1923,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Alex',
-      avatar: '08.webp',
-    },
-    title: '#2 Nothing special',
-    views: 321,
-    pic: 'be31b615-5cf3-4939-96aa-78bb880fae87.webp',
-    likes: 0,
-    comments: 4,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'I have a long name',
-      avatar: '09.webp',
-    },
-    title: 'Could be a dream',
-    views: 312,
-    pic: 'd3f8ab56-e172-46ad-9332-cbddc6bbe96f.webp',
-    likes: 10,
-    comments: 31,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'WhoAmI?',
-      avatar: '10.webp',
-    },
-    title: '#091 Cord',
-    views: 4679,
-    pic: 'e6590b08-12d4-42f6-8540-af88677e1387.webp',
-    likes: 91,
-    comments: 345,
-    price: '0',
-    publishDate: new Date(),
-  },
-  {
-    author: {
-      name: 'Unknown Autor',
-    },
-    title: 'We lost it',
-    views: 12,
-    likes: 0,
-    comments: 0,
-    price: '0',
-    publishDate: new Date(),
-  },
-].map((e) => ({
-  ...e,
+const avatars = [
+  '01.webp', '02.webp', '03.webp', '04.webp', '05.webp', '06.webp',
+  '07.webp', '08.webp', '09.webp', '10.webp', '11.webp',
+];
+
+const pics = [
+  '1e54778d-a939-4f0a-9acb-134b69007c25.webp',
+  '8ed4b930-5830-4de5-818c-7ab06314746c.webp',
+  '9e668765-5414-4993-a956-99930b3791d7.webp',
+  '45f68c2a-101c-456d-a736-b808d7f930a8.webp',
+  '709e6ebf-1ecc-4a6d-b1c7-9f2072b3c01f.webp',
+  '04314f8b-6c8d-41c5-95be-e78848eee6e1.webp',
+  '5914ae6c-0510-4456-9979-dca86f9b7f55.webp',
+  'a82e12b9-de17-4b40-8ca3-5c67fd9d23a9.webp',
+  'be31b615-5cf3-4939-96aa-78bb880fae87.webp',
+  'd3f8ab56-e172-46ad-9332-cbddc6bbe96f.webp',
+  'e6590b08-12d4-42f6-8540-af88677e1387.webp',
+];
+
+const data: Items[] = pics.map((pic, i) => ({
+  id: faker.string.uuid(),
+  title: `#${faker.number.int({ min: 1, max: 9999 })} ${faker.word.adjective()} ${faker.word.noun()}`,
   author: {
-    ...e.author,
-    id: faker.datatype.uuid(),
+    id: faker.string.uuid(),
+    name: faker.internet.username(),
+    avatar: avatars[i % avatars.length],
   },
-  id: faker.datatype.uuid(),
-  publishDate: faker.date.recent(faker.datatype.number({ min: 1, max: 365 })),
-  price: String(faker.datatype.float({ min: 0, max: 1, precision: 0.001 })),
+  pic,
+  views: faker.number.int({ min: 10, max: 50_000 }),
+  likes: faker.number.int({ min: 0, max: 1_000 }),
+  comments: faker.number.int({ min: 0, max: 2_000 }),
+  price: faker.number.float({ min: 0.001, max: 10, fractionDigits: 3 }).toFixed(3),
+  publishDate: faker.date.recent({ days: 365 }),
 })).sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
 
 export default data;

@@ -5,10 +5,10 @@ export class Authors {
   @Field(() => ID)
   id: string;
 
-  @Field()
+  @Field(() => String)
   name: String;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   avatar?: String;
 }
 
