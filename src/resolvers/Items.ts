@@ -26,7 +26,7 @@ export class ItemsResolver {
   }
 
   @Query(() => [Items])
-  async items(@Args() { range }: GetItemsArgs): Promise<Items[]> {
+  async items(@Args(() => GetItemsArgs) { range }: GetItemsArgs): Promise<Items[]> {
     const cutoff = new Date(Date.now() - range * 24 * 60 * 60 * 1000).toISOString();
     const result = await dynamo.send(new ScanCommand({
       TableName: TABLE_NAME,

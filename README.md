@@ -27,49 +27,38 @@ GraphQL API for the NFT marketplace, running on AWS Lambda + API Gateway V2, bac
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Live Lambda dev via `sst dev` — runs your code locally, traffic proxied from AWS |
-| `npm run deploy-prod` | Deploy to `production` stage |
-| `npm run seed` | Seed DynamoDB with sample NFT data (requires `TABLE_NAME` env var) |
-| `npm run test:local` | Run tests locally — starts DynamoDB Local via Docker automatically |
-| `npm test` | Run tests (requires DynamoDB Local running on port 8000) |
+| `npm run serve` | Run API locally — starts DynamoDB Local, seeds it, serves on port 3005 |
+| `npm run test:local` | Run tests — starts DynamoDB Local via Docker automatically |
+| `npm run deploy-prod` | Deploy to `production` stage (requires AWS credentials) |
+| `npm run dev` | Live Lambda dev via `sst dev` — proxies AWS traffic to local code (requires AWS credentials) |
+| `npm run seed` | Seed DynamoDB manually (requires `TABLE_NAME` and AWS env vars) |
+| `npm test` | Run tests against an already-running DynamoDB Local on port 8000 |
 
-## Getting started
+## Running locally
+
+Requires Docker. No AWS account needed.
 
 ```bash
 npm install
-npx sst install     # generate SST type definitions
-
-npm run deploy-dev  # deploy to AWS (prints the API URL on completion)
+npx sst install   # generate SST type definitions (one-time)
+npm run serve     # starts DynamoDB Local, seeds 100 items, serves GraphQL at http://localhost:3005
 ```
-
-After deploying, seed the table:
-
-```bash
-TABLE_NAME=<name-from-deploy-output> npm run seed
-```
-
-## Local development
-
-```bash
-npm run dev
-```
-
-SST proxies live AWS traffic to your local machine — no emulation, real Lambda invocations hit your local code. The DynamoDB table is the deployed one.
 
 ## Testing
 
 ```bash
-npm run test:local  # starts DynamoDB Local via Docker, runs tests, tears down
+npm run test:local
 ```
 
-Tests use Apollo's `executeOperation` directly (no HTTP layer) against a local DynamoDB table that is created and destroyed each run.
+Starts DynamoDB Local, runs the full test suite, tears everything down on exit.
 
-To run tests manually against an already-running DynamoDB Local:
+## Deployment
 
-```bash
-docker run -p 8000:8000 amazon/dynamodb-local
-npm test
-```
+Push to `master` to trigger CI:
+
+1. **test** — runs the test suite against DynamoDB Local
+2. **deploy** — deploys to `production` on AWS
+3. **seed** — re-seeds the production DynamoDB table with 100 fresh items
 
 ## Deployment
 

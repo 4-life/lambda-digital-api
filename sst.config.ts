@@ -19,6 +19,7 @@ export default $config({
 
     const fn = {
       handler: "index.handler",
+      runtime: "nodejs22.x",
       memory: "512 MB",
       timeout: "6 seconds",
       link: [table],

@@ -2,7 +2,7 @@ import { Max, Min } from 'class-validator';
 import { ObjectType, Field, ID, Int, Float, ArgsType } from 'type-graphql';
 import { Authors } from './Authors';
 
-@ObjectType({ description: 'The Items model' })
+@ObjectType("Items", { description: 'The Items model' })
 export class Items {
   @Field(() => ID)
   id: string;
