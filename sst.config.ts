@@ -40,8 +40,7 @@ export default $config({
       },
     });
 
-    api.route("GET /", fn);
-    api.route("POST /", fn);
+    api.route("$default", fn);
 
     return { url: api.url, table: table.name };
   },

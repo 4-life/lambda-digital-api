@@ -1,10 +1,11 @@
 {
-  "name": "nft-marketplace-graphql-server",
+  "name": "lambda-digital-api",
   "version": "2.0.0",
-  "description": "Graphql API function for nft marketplace lambda.Digital",
+  "description": "Graphql API for lambda digital app",
   "scripts": {
     "dev": "sst dev",
-    "deploy-dev": "sst deploy --stage dev",
+    "serve": "bash scripts/serve.sh",
+    "serve:server": "env DYNAMODB_ENDPOINT=http://localhost:8000 AWS_REGION=eu-central-1 AWS_ACCESS_KEY_ID=local AWS_SECRET_ACCESS_KEY=local TABLE_NAME=items-test TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' ts-node scripts/serve.ts",
     "deploy-prod": "sst deploy --stage production",
     "seed": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' ts-node scripts/seed.ts",
     "test:local": "bash scripts/test.sh",
