@@ -6,6 +6,7 @@ import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import { ItemsResolver } from './src/resolvers/Items';
 import { StatusResolver } from './src/resolvers/Status';
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 
 const emitSchemaFile = !!process.env.GENERATE_SCHEMA;
 
@@ -14,7 +15,7 @@ export async function createServer() {
     resolvers: [ItemsResolver, StatusResolver],
     emitSchemaFile,
   });
-  return new ApolloServer({ schema });
+  return new ApolloServer({ schema, plugins: [ApolloServerPluginLandingPageDisabled()] });
 }
 
 async function createLambdaHandler() {
